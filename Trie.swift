@@ -3,7 +3,7 @@ import Foundation
 struct Node<T: Hashable> {
     var children: [T : Node<T>] = [:]
     
-    var isLast: Bool {
+    var isLeaf: Bool {
         children.isEmpty
     }
     
@@ -48,7 +48,7 @@ struct Trie<T: Hashable> {
         func hasContentHelper(of word: some Collection<T>, at root: Node<T>) -> Bool {
             guard !word.isEmpty else { return true }
             
-            guard root.isLast == false else {
+            guard root.isLeaf == false else {
                 return false
             }
             
