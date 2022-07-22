@@ -4,6 +4,10 @@ struct InfiniteSequence: Sequence, IteratorProtocol {
     var from: Int
     
     mutating func next() -> Int? {
+        // check for overflow
+        guard from < Int.max else {  return nil    }
+        
+        // defer blocks always gets called, after the function finishes executin 
         defer { from += 1 }
         return from
     }
