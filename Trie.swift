@@ -7,14 +7,12 @@ struct Node<T: Hashable> {
         children.isEmpty
     }
     
-    mutating func addChild(of key: T) {
-        guard children[key] == nil else {
-            return
-        }
+    mutating func addChild(withKey key: T) {
+        guard children[key] == nil else {  return   }
         children[key] = Node()
     }
     
-    func hasChild(of key: T) -> Bool {
+    func hasChild(withKey key: T) -> Bool {
         children[key] != nil
     }
 }
@@ -27,34 +25,28 @@ struct Trie<T: Hashable> {
        addCotentHelper(&root, &iter)
         
         func addCotentHelper(_ node: inout Node<T>, _ iter: inout some IteratorProtocol<T>) {
-            guard let key = iter.next() else {
-                return
-            }
-            node.addChild(of: key)
+            guard let key = iter.next() else { return }
+            node.addChild(withKey: key)
             addCotentHelper(&node.children[key]!, &iter)
         }
     }
     
    
 
-        private func containsPrefix(of content: some Collection<T>, at root: Node<T>) -> Bool {
-            guard let first = content.first else {
-                return true
-            }
-            
-            if root.hasChild(of: first) {
-                return containsPrefix(of: content.dropFirst(), at: root.children[first]!)
-            }
-            return false
+    private func containsPrefix(of content: some Collection<T>, at root: Node<T>) -> Bool {
+        guard let first = content.first else { return true }
+        
+        if root.hasChild(withKey: first) {
+            return containsPrefix(of: content.dropFirst(), at: root.children[first]!)
         }
+        return false
+    }
     
     public func hasContent(of word: some Collection<T>) -> Bool {
         return hasContentHelper(of: word, at: root)
         
         func hasContentHelper(of word: some Collection<T>, at root: Node<T>) -> Bool {
-            guard !word.isEmpty else {
-                return true
-            }
+            guard !word.isEmpty else { return true }
             
             guard root.isLast == false else {
                 return false
@@ -64,12 +56,7 @@ struct Trie<T: Hashable> {
                 return  true
             }
             
-            for child in root.children.values {
-                if hasContentHelper(of: word, at: child) {
-                    return true
-                }
-            }
-            return false
+            return root.children.values.contains(where: { child in hasContentHelper(of: word, at: child) })
         }
     }
     
