@@ -21,6 +21,6 @@ for num in from10 {
 
 var from12 = InfiniteSequence(from: 12)
 
-for num in from10 {
+for num in from12 {
     print(num) // prints 12,13,14...
 }
