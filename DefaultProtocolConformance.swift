@@ -44,3 +44,11 @@ let mike = Person(name: "Mike")
 
 //Hello Mike!
 mike.greet()
+
+/*
+side note, instead of conforming late on to the Greetable protcol, we could have directly just written:
+struct Person: Nameable, Greetable {
+   ....
+}
+as long as the protocol default implementation was already present.
+*/
